@@ -1,0 +1,488 @@
+$color-text-primary: rgb(240, 238, 238) !default;
+$color-text-secondary: #919EAB !default;
+$color-button: #04636E !default;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap');
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css');
+
+body{
+    background-color: rgb(14, 14, 14);
+    padding-bottom: 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+*{
+    color: $color-text-primary;
+    font-family: 'Poppins', sans-serif;
+}
+
+.section-title{
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.highlighted-movie{
+    height: 400px;
+    width: calc(100% + 3rem);
+    margin-left: -1.5rem;
+    background-color: rgba($color: #fff, $alpha: 0.025);
+    margin-bottom: 3rem;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    .highlighted-movie-content{
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+        z-index: 10;
+        .highlighted-movie-title{
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .highlighted-movie-overview{
+            font-size: .75rem;
+            font-weight: 400;
+            width: 50%;
+            color: rgba($color: #fff, $alpha: 0.75);
+        }
+    }
+    .movie-rating{
+        padding: .25rem .5rem .3rem .5rem;
+        border-radius:  0 0 .25rem .25rem;
+        background-color: black;
+        display: inline-block;
+        font-weight: 700;
+        position: absolute;
+        color: #FAC766;
+        transition: all .25s;
+        position: absolute;
+        bottom: 110px;
+        right: 50px;
+        z-index: 10;
+        svg{
+            margin-top: -4px;
+        }
+    }
+    .movie-sidebar-content{
+        width: 185px;
+        position: absolute;
+        top: 200px;
+        left: 50px;
+        margin-bottom: -100px;
+        z-index: 10;
+        .movie-image{
+            height: 260px;
+            width: 100%;
+            border-radius: .5rem;
+            background-position: center;
+            background-size: cover;
+        }
+    }
+    &.show{
+        .highlighted-movie-content{
+            left: 280px;
+        }
+    }
+    &::after{
+        height: 400px;
+        width: 100%;
+        content: '';
+        position: absolute;
+        z-index: 5;
+        bottom: 0;
+        left: 0;
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#7db9e8+0,140b04+100&0+0,1+100 */
+        background: -moz-linear-gradient(top,  rgba(125,185,232,0) 0%, rgba(20,11,4,1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  rgba(125,185,232,0) 0%,rgba(20,11,4,1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  rgba(125,185,232,0) 0%,rgba(20,11,4,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#140b04',GradientType=0 ); /* IE6-9 */
+    }
+}
+
+.add-to-list{
+    height: 40px;
+    border-radius: .5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.5rem;
+    background-color: rgba($color: #fff, $alpha: 0.15);
+    color: $color-text-primary;
+    font-weight: 500;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+    z-index: 12;
+    .text{
+        margin-left: .5rem;
+    }
+    &:hover{
+        background-color: rgba($color: #fff, $alpha: 0.2);
+    }
+    &.short{
+        width: 40px;
+        margin-left: 2.5px;
+        margin-top: 2.5px;
+        position: relative;
+        bottom: unset;
+        right: unset;
+        padding: 0;
+        justify-content: center;
+        background-color: rgba($color: #000, $alpha: 0.5);
+        &:hover{
+            background-color: rgba($color: #000, $alpha: 0.7);
+        }
+    }
+}
+
+.movies{
+    // display: flex;
+    // -ms-flex-wrap: wrap!important;
+    // flex-wrap: wrap!important;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    .movie-card{
+        display: inline-block;
+        margin-left: 1rem;
+        height: 267px;
+        width: 212px;
+        background-color: rgba($color: #fff, $alpha: 0.05);
+        border-radius: .5rem;
+        cursor: pointer;
+        margin-right: 1rem;
+        transition: all .25s;
+        margin-bottom: 1.5rem;
+        .movie-image{
+            height: 185px;
+            width: 100%;
+            border-radius: .5rem;
+            background-position: center;
+            background-size: cover;
+            position: relative;
+            .movie-rating{
+                padding: 5px 7px 4px 7px;
+                border-radius:  0 0 .25rem .25rem;
+                background-color: black;
+                display: inline-block;
+                font-weight: 700;
+                position: absolute;
+                top: 2px;
+                right: .2rem;
+                color: #FAC766;
+                opacity: 0;
+                transition: all .25s;
+                svg{
+                    margin-top: -4px;
+                }
+            }
+            .movie-popularity-track{
+                height: 4px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                display: flex;
+                background-color: rgba($color: #fff, $alpha: 0.2);
+                .movie-popularity-bar{
+                    height: 4px;
+                    background-color: #E44E4A;
+                    display: inline-block;
+                    position: relative;
+                    &.good{
+                        background-color: #FAC766;
+                    }
+                    &.very-good{
+                        background-color: #3BBEA5;
+                    }
+                }
+                .movie-popularity{
+                    background: $color-text-primary;
+                    padding: .25rem .5rem;
+                    border-radius:  .25rem .25rem 0 .25rem ;
+                    position: absolute;
+                    color: #E44E4A;
+                    font-size: .75rem;
+                    top: -30px;
+                    width: 40px;
+                    text-align: center;
+                    font-weight: 700;
+                    right: .5rem;
+                    &.good{
+                        color: #FAC766;
+                    }
+                    &.very-good{
+                        color: #3BBEA5;
+                    }
+                }
+            }
+        }
+        .movie-action{
+            height: 0;
+            width: 45px;
+            border-radius: 0 .25rem .25rem 0;
+            position: absolute;
+            top: 0;
+            // right: -45px;
+            opacity: 0;
+            // transition: height .25s;
+        }
+        .movie-detail{
+            padding: 1rem;
+            .movie-title{
+                font-size: 1rem;
+                font-weight: 500;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                // display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            .movie-release-date{
+                font-size: .75rem;
+                font-weight: 500;
+                margin-top: .5rem;
+                color: $color-text-secondary;
+            }
+        }
+        &:hover{
+            // transform: scale(1.15);
+            transform: matrix(1, 0, 0, 1, 0, 0);
+            z-index: 1;
+            // border-radius: .5rem 0 .5rem .5rem;
+            // box-shadow: 0px 0px 15px rgba(0, 0, 0, .75) !important;
+            transition-delay: .25s;
+            .movie-image{
+                border-radius: .5rem 0 .5rem .5rem;
+                .movie-rating{
+                    opacity: 1;
+                    transition-delay: .25s;
+                }
+            }
+            .movie-action{
+                opacity: 1;
+                height: 85px;
+                // box-shadow: 4px 0px 10px rgba(0, 0, 0, .5) !important;
+                transition: height .25s;
+                transition-delay: .5s;
+            }
+        }
+    }
+}
+
+.navbar{
+    height: 65px;
+    width: 100%;
+    position: absolute;
+    z-index: 30;
+    background-color: rgba($color: #000, $alpha: 0.5);
+    .navbar-inner{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        .navbar-link{
+            font-weight: 600;
+            color: $color-text-primary;
+            text-decoration: none;
+            margin-right: 1.5rem;
+            padding-bottom: .5rem;
+            &.active{
+                border-bottom: solid 2px $color-text-primary;
+            }
+        }
+        .app-name{
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin-right: 3rem;
+            padding-bottom: .5rem;
+        }
+        .search{
+            background-color: rgba($color: #fff, $alpha: 0.15);
+            color: $color-text-primary;
+            border: none;
+            font-size: 14px;
+        }
+    }
+}
+
+.page-space{
+    padding-top: 80px;
+}
+
+.show-detail-content{
+    padding-left: 260px;
+}
+
+.tag{
+    background-color: rgba($color: #fff, $alpha: 0.15);
+    padding: .25rem .75rem;
+    border-radius: 20px;
+    font-size: 12px;
+    text-align: center;
+    margin-right: .25rem;
+}
+
+.cast-image{
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+    background-position: center;
+    background-size: cover;
+    flex: 50px 0 0;
+}
+
+.cast-name{
+    font-size: 10px;
+    color: $color-text-secondary;
+}
+
+.cast-character{
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.cast-content{
+    max-height: 220px;
+    overflow: hidden;
+    position: relative;
+    &::after{
+        height: 100px;
+        width: 100%;
+        content: '';
+        position: absolute;
+        z-index: 5;
+        bottom: 0;
+        left: 0;
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#7db9e8+0,140b04+100&0+0,1+100 */
+        background: -moz-linear-gradient(top,  rgba(125,185,232,0) 0%, rgba(14,14,14,1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top,  rgba(125,185,232,0) 0%,rgba(14,14,14,1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom,  rgba(125,185,232,0) 0%,rgba(14,14,14,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#140b04',GradientType=0 ); /* IE6-9 */
+    }
+    &.showed{
+        max-height: unset;
+        &::after{
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    .highlighted-movie{
+        .movie-rating{
+        }
+        .highlighted-movie-content{
+            bottom: 80px !important;
+            .highlighted-movie-title{
+            }
+            .highlighted-movie-overview{
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .m-no-flex{
+        display: unset;
+    }
+    .show-detail-content{
+        padding-left: unset;
+    }
+    .container{
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+    .highlighted-movie{
+        .movie-rating{
+            bottom: 60px;
+            border-radius: 0.30rem;
+            right: 30px;
+            padding: 5px 8px 4px 8px;
+        }
+        .highlighted-movie-content{
+            left: 20px;
+            bottom: 160px;
+            .highlighted-movie-title{
+                font-size: 1.7rem;
+            }
+            .highlighted-movie-overview{
+                width: 90%;
+            }
+        }
+    }
+    .add-to-list{
+        bottom: 15px;
+        right: 30px;
+    }
+    .navbar{
+        background: transparent;
+    }
+    .m-no-flex{
+        display: block !important;
+    }
+    .m-mt-1{
+        margin-top: 10px;
+    }
+    .navbar{
+        .navbar-inner{
+            .navbar-link{
+                font-size: 14px;
+                &.active{
+                    border-bottom: unset;
+                }
+            }
+        }
+    }
+}
+
+.rating {
+    position: absolute;
+    // bottom: 0px;
+    // left: 50px;
+    z-index: 12;
+  }
+  
+.rating > label {
+    color: #90A0A3;
+    float: right;
+}
+
+.rating > label:before {
+    margin: 3px;
+    font-size: 1em;
+    font-family: FontAwesome;
+    content: "\f005";
+    display: inline-block;
+}
+
+.rating > input {
+    display: none;
+}
+  
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: #F79426;
+}
+  
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label,
+.rating > input:checked ~ label:hover ~ label {
+    color: #FECE31;
+}
+.text-red{
+    color: #e74c3c !important;
+}
+.search{
+    background-color: rgba($color: #fff, $alpha: 0.15);
+    color: $color-text-primary;
+    border: none;
+    font-size: 14px;
+}
