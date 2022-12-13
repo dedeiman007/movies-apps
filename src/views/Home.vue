@@ -1,177 +1,215 @@
 <template>
-  <div class="home">
-    <div class="container">
-      <div class="highlighted-movie" v-if="is_popular_movies_ready" :style="{'background-image': 'url(' + generateImageUrl(highlighted_movie.backdrop_path, true) + ')'}">
-        <div class="highlighted-movie-content">
-          <div class="highlighted-movie-title">
-            {{ highlighted_movie.title }}
-          </div>
-          <div class="highlighted-movie-overview">
-            {{ highlighted_movie.overview }}
-          </div>
-        </div>
-        <div class="movie-rating">
-            <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.5109 4.70272L10.5202 4.12872L8.71625 0.4934C8.41559 -0.135265 7.48625 -0.162598 7.15826 0.4934L5.38159 4.12872L1.36361 4.70272C0.65294 4.81205 0.379608 5.68672 0.89894 6.20605L3.76893 9.02137L3.0856 12.9847C2.97627 13.6954 3.7416 14.242 4.37026 13.914L7.95092 12.028L11.5042 13.914C12.1329 14.242 12.8982 13.6954 12.7889 12.9847L12.1056 9.02137L14.9756 6.20605C15.4949 5.68672 15.2216 4.81205 14.5109 4.70272Z" fill="#FAC766"/>
-            </svg>
-            {{ highlighted_movie.vote_average }}
-        </div>
+    <div>
+        <section class="hero mt-hero">
+            <div class="container">
+                <div class="row m-center">
+                    <div class="col-12 col-md-6 col-lg-6 mt-5 m-mt-0">
+                        <h1 class="hero__title">
+                            {{ home.title }}
+                        </h1>
+                        <div class="size-16 text-dark m-size-14">
+                            <div v-html="home.description"></div>
+                        </div>
+                        <div class="mt-5">
+                            <router-link :to="{name:'Product'}" class="btn btn-header">
+                                Lihat Produk Sekarang Juga
+                                <i class="fa fa-angle-right ms-3"></i>
+                            </router-link>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 p-lg-0 text-right">
+                        <img src="https://good.co/wp-content/themes/goodco-rd/build/img/home-hero-image.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="mt-section">
+            <div class="container">
+                <h3 class="text-dark text-center fw-ekstra-bold">
+                    Company Overview
+                </h3>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-6">
+                        <div class="box no-shadow border-gray text-center">
+                            <div v-html="home.company_overview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="mt-section">
+            <div class="container">
+                <h3 class="text-dark fw-ekstra-bold">
+                    My Product
+                </h3>
+                <template v-if="products.length > 0">
+                    <div class="row mt-4">
+                        <div class="col-md-3 mt-4" v-for="(product, index) in products" :key="index">
+                            <div class="box">
+                                <div class="text-center">
+                                    <img :src="product.images[0].image" width="50%" alt="">
+                                </div>
+                                <div class="mt-4 size-16 fw-ekstra-bold text-dark">
+                                    {{ product.name }}
+                                </div>
+                                <div class="text-gray size-14">
+                                    {{ product.category }}
+                                </div>
+                                <div class="mt-3">
+                                    <router-link :to="{path:'/product/' + product.id}" class="btn btn-primary btn-sm w-100">
+                                        View Detail
+                                    </router-link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 mt-5">
+                            <div class="box text-center p-4">
+                                <div class="mt-4">
+                                    <img src="../assets/empty.png" width="100" alt="">
+                                </div>
+                                <div class="size-18 fw-medium text-gray mt-3 mb-4">
+                                    Product is empty
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <!-- <section class="mt-section bc-light-primary">
+            <div class="container p-overview">
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="box no-shadow">
+                            <div class="text-center size-18 fw-ekstra-bold">
+                                Company Overview
+                            </div>
+                            <div class="mt-4 size-14 fw-medium text-center">
+                                Melihat semakin banyak alat medis di dunia yang dibutuhkan oleh dunia kesehatan, langkah utama yang kami lakukan adalah bergabung dengan salah satu persuahaan media asal Denmark yaitu Dantec. Seiring berkembangnya perusahaan, banyak spesialisasi produk yang dikembangkan seperti urologi, gastroenterologi, dan Neurologi. Kami juga memperluas kemitraan dengan Huikang (China), Laborie Medical (Canada)/ MMS (Netherland), Compumedics (Autralia) dan lainnya.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
         
-        <ButtonAddToList type="movie" :movie="highlighted_movie" />
-      </div>
-      <div v-else>
-        <HighlightLoader  class="mb-5"/>
-      </div>
-      <h4 class="section-title">
-        Popular Movies
-      </h4>
-      <div class="movies" v-if="is_popular_movies_ready">
-        <MovieCard class="movie-card" v-for="movie in popular_movies" :key="'popular_movies' + movie.id" :movie="movie" :image-configuration="image_configuration" />
-      </div>
-      <div v-else>
-        <CardLoader />
-      </div>
-      <h4 class="section-title mt-5">
-        Top Rated Movies
-      </h4>
-      <div class="movies" v-if="is_top_rated_movies_ready">
-        <MovieCard class="movie-card" v-for="movie in top_rated_movies" :key="'rated_movies' + movie.id" :movie="movie" :image-configuration="image_configuration" />
-      </div>
-      <div v-else>
-        <CardLoader />
-      </div>
-      <h4 class="section-title mt-5">
-        Popular Tv Shows
-      </h4>
-      <div class="movies" v-if="is_popular_show_ready">
-        <TvShowCard class="movie-card" v-for="show in popular_show" :key="'rated_show' + show.id" :show="show" :image-configuration="image_configuration" />
-      </div>
-      <div v-else>
-        <CardLoader />
-      </div>
-      <h4 class="section-title mt-5">
-        Top Rated Tv Shows
-      </h4>
-      <div class="movies" v-if="is_top_rated_show_ready">
-        <TvShowCard class="movie-card" v-for="show in top_rated_show" :key="'rated_show' + show.id" :show="show" :image-configuration="image_configuration" />
-      </div>
-      <div v-else>
-        <CardLoader />
-      </div>
+        <section class="mt-section">
+            <div class="container">
+                <h3 class="text-dark fw-ekstra-bold">
+                    Article
+                </h3>
+                <div class="row" v-if="articles.length > 0">
+                    <template v-for="(article, index) in articles.slice(0,6)">
+                        <div class="col-md-6 mt-4" v-if="article.status == 'Aktif'" :key="index">
+                            <router-link :to="{path:'/article/' + article.id}">
+                                <div class="box no-shadow border-gray">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="image-article" :style="{'background-image': 'url(' + (article.image) + ')'}"></div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="fw-ekstra-bold size-16 text-dark m-mt-2">
+                                                {{ article.title }}
+                                            </div>
+                                            <div class="mt-2 text-gray fw-medium">
+                                                {{ moment(article.created_at).format('DD MMMM YYYY') }}
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 text-dark limit-two-line">
+                                            {{ article.description }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </router-link>
+                        </div>
+                    </template>
+                </div>
+                <div class="box no-shadow border-gray text-center p-4 mt-5" v-else>
+                    <div class="mt-4">
+                        <img src="../assets/empty.png" width="100" alt="">
+                    </div>
+                    <div class="size-18 fw-medium text-gray mt-4 mb-2">
+                        Article is empty
+                    </div>
+                </div>
+                <div class="mt-4" v-if="articles.length > 6">
+                    <router-link :to="{name:'Article'}" class="btn btn-outline-primary px-5">
+                        See All Articles
+                    </router-link>
+                </div>
+            </div>
+        </section>
     </div>
-  </div>
 </template>
 
 <script>
-import Api from '../api/Api';
-import CardLoader from '../components/CardLoader.vue';
-import HighlightLoader from '../components/HighlightLoader.vue';
-import MovieCard from '../components/MovieCard.vue';
-import TvShowCard from '../components/TvShowCard.vue';
-import ButtonAddToList from '../components/ButtonAddToList.vue';
+    import Api from '../api/Api';
+    import moment from 'moment';
 
-export default {
-  components: {
-    CardLoader,
-    HighlightLoader,
-    MovieCard,
-    TvShowCard,
-    ButtonAddToList,
-  },
-  name: 'Home',
-  data() {
-    return{
-      image_configuration: null,
-      popular_movies: [],
-      top_rated_movies: [],
-      popular_show: [],
-      top_rated_show: [],
-      is_popular_movies_ready: false,
-      is_top_rated_movies_ready: false,
-      is_popular_show_ready: false,
-      is_top_rated_show_ready: false,
-      highlighted_movie: null
+    export default {
+        components: {
+        },
+        name: 'Home',
+        data() {
+            return{
+                moment: moment,
+                home: {},
+                products: [],
+                articles: []
+            }
+        },
+        created() {
+            this.getHomeData()
+            this.getProducts()
+            this.getArticles()
+        },
+        methods: {
+            getHomeData(){
+                Api.get(`/home`)
+                .then((res)=>{
+                    var data = res.data.data
+                    this.home = data
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+            },
+            getProducts(){
+                Api.get(`/product`)
+                .then((res)=>{
+                    var data = res.data.data
+                    this.products = data
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+            },
+            getArticles(){
+                Api.get(`/article`)
+                .then((res)=>{
+                    var data = res.data.data
+                    this.articles = data
+                })
+                .catch(err => {
+                    console.log(err)
+                });
+            },
+        }
     }
-  },
-  created() {
-    this.getConfiguration()
-  },
-  methods: {
-    getPopularMovie() {
-      Api.get(`/movie/popular`)
-          .then((res) => {
-              var data = res.data.results
-              this.popular_movies = data
-              this.highlighted_movie = data[0]
-              this.is_popular_movies_ready = true
-          })
-          .catch((err) => {
-              this.is_popular_movies_ready = false
-              console.log(err)
-          })
-    },
-    getTopRatedMovie() {
-      Api.get(`/movie/top_rated`)
-          .then((res) => {
-              var data = res.data.results
-              this.top_rated_movies = data
-              this.is_top_rated_movies_ready = true
-          })
-          .catch((err) => {
-              this.is_top_rated_movies_ready = false
-              console.log(err)
-          })
-    },
-    getPopularTv() {
-      Api.get(`/discover/tv`, {
-              params: {
-                sort_by: 'popularity.desc'
-              }
-          })
-          .then((res) => {
-              var data = res.data.results
-              this.popular_show = data
-              this.is_popular_show_ready = true
-          })
-          .catch((err) => {
-              this.is_popular_show_ready = false
-              console.log(err)
-          })
-    },
-    getTopRatedTv() {
-      Api.get(`/tv/top_rated`)
-          .then((res) => {
-              var data = res.data.results
-              this.top_rated_show = data
-              this.is_top_rated_show_ready = true
-          })
-          .catch((err) => {
-              this.is_top_rated_show_ready = false
-              console.log(err)
-          })
-    },
-    getConfiguration() {
-      Api.get(`/configuration`)
-          .then((res) => {
-              var data = res.data.images
-              this.image_configuration = data
-              this.getPopularMovie()
-              this.getTopRatedMovie()
-              this.getPopularTv()
-              this.getTopRatedTv()
-          })
-          .catch((err) => {
-              console.log(err)
-          })
-    },
-    generateImageUrl(image, big) {
-      var config = this.image_configuration
-      if(big){
-        return config.base_url + config.poster_sizes[5] + image
-      }else{
-        return config.base_url + config.poster_sizes[2] + image
-      }
-    }
-  }
-}
 </script>
+
+<style>
+    .image-article{
+        width: 100%;
+        height: 90px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 10px;
+    }
+</style>
